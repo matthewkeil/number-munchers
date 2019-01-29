@@ -37,6 +37,61 @@ function buildBoard() {
     displayExtraLives();
 }
 
+function buildMuncher() {
+    const cell = $('.cell:first');
+    const height = cell.innerHeight();
+    const width = cell.innerWidth();
+    $('#board').append(`<div id="muncher" style="width:  ${width}px;height:${height}px;"></div>`);
+}
+
+function moveRight() {
+    const muncher = $('#muncher')[0];
+    console.log(muncher.style);
+}
+
+class Muncher {
+
+    constructor() {
+        this.element = $('#muncher')[0];
+
+        if (!this.element) {
+            
+        }
+    }
+
+    moveLeft() {}
+    
+    moveDown() {}
+    
+    moveUp() {}
+    
+    munch() {
+        console.log('nom nom');
+    }
+}
 
 buildBoard();
-$('.extra-lives').append('')
+
+buildMuncher();
+
+window.addEventListener('resize', buildMuncher);
+
+document.addEventListener('keyup', (e) => {
+    switch(e.key) {
+        case ' ':
+            munch();
+            break;
+        case 'ArrowUp':
+            moveUp();
+            break;
+        case 'ArrowDown':
+            moveDown();
+            break;
+        case 'ArrowLeft':
+            moveLeft();
+            break;
+        case 'ArrowRight':
+            moveRight();
+            break;    
+    }
+});
