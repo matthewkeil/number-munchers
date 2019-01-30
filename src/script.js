@@ -1,5 +1,7 @@
 
 let _extraLives = 3;
+const _numRows = 5;
+const _numCols = 6
 
 function buildCell(rowIndex, colIndex) {
     
@@ -11,13 +13,13 @@ function buildCell(rowIndex, colIndex) {
     return cell;
 }
 
-function buildRow(numCells, rowIndex) {
+function buildRow(numCols, rowIndex) {
     
     const row = document.createElement('div');
     row.className = "row";
     row.id = `row-${rowIndex}`;
 
-    for (let i = 0; i < numCells; i++)
+    for (let i = 0; i < numCols; i++)
         row.appendChild(buildCell(rowIndex, i));
     
     return row;
@@ -30,40 +32,84 @@ function displayExtraLives() {
 }
 
 function buildBoard() {
-    for (let i = 0; i < 5; i++) {
-        $('#board').append(buildRow(6, i));
+    for (let i = 0; i < _numRows; i++) {
+        $('#board').append(buildRow(_numCols, i));
     }
-
-    displayExtraLives();
-}
-
-function buildMuncher() {
-    const cell = $('.cell:first');
-    const height = cell.innerHeight();
-    const width = cell.innerWidth();
-    $('#board').append(`<div id="muncher" style="width:  ${width}px;height:${height}px;"></div>`);
-}
-
-function moveRight() {
-    const muncher = $('#muncher')[0];
-    console.log(muncher.style);
+    // displayExtraLives();
 }
 
 class Muncher {
 
     constructor() {
-        this.element = $('#muncher')[0];
-
-        if (!this.element) {
-            
-        }
+        
+        this.board = $('#board');
+        
+        this.element = this.board
+            .append(this._element)
+            .find('#muncher');
     }
 
-    moveLeft() {}
+    get width() {
+        return this.board.find(`#cell-${this.row}-${this.column}`).outerWidth();
+    }
     
-    moveDown() {}
+    set width(width) {}
+
+    get height() {
+        return this.board.find(`#cell-${this.row}-${this.column}`).outerHeight();
+    }
+
+    set height(height) {}
+
+    get column() {
+        if (!this.element) return 0;
+
+        let percentage = parseFloat(this.element[0].style.left.match(/[0-9.]*/)[0]);
+
+        return Math.round(percentage * _numCols / 100 + 1);
+    }
+
+    set column(col) {
+        let offset = (col - 1) * 100/_numCols;
+        this.element.css('left', offset + '%');
+    }
+
+    get row() {
+        if (!this.element) return 0;
+
+        let percentage = parseFloat(this.element[0].style.top.match(/[0-9.]*/)[0]);
+
+        return Math.round(percentage * _numRows / 100 + 1);
+    }
+
+    set row(row) {
+        let offset = (row - 1) * 100/_numRows;
+        this.element.css('top', offset + '%');
+    }
+
+    get _element() {
+        return `<div id="muncher" style="
+        width:${this.width}px;
+        height:${this.height}px;
+        top:${this.column}px;
+        left:${this.row}"></div>`
+    } 
+
+    moveLeft() {
+        this.column--;
+    }
     
-    moveUp() {}
+    moveRight() {
+        this.column++;
+    }
+    
+    moveDown() {
+        this.row--;
+    }
+    
+    moveUp() {
+        this.row++
+    }
     
     munch() {
         console.log('nom nom');
@@ -72,9 +118,7 @@ class Muncher {
 
 buildBoard();
 
-buildMuncher();
-
-window.addEventListener('resize', buildMuncher);
+let muncher = new Muncher;
 
 document.addEventListener('keyup', (e) => {
     switch(e.key) {
@@ -82,16 +126,16 @@ document.addEventListener('keyup', (e) => {
             munch();
             break;
         case 'ArrowUp':
-            moveUp();
+            muncher.moveUp();
             break;
         case 'ArrowDown':
-            moveDown();
+            muncher.moveDown();
             break;
         case 'ArrowLeft':
-            moveLeft();
+            muncher.moveLeft();
             break;
         case 'ArrowRight':
-            moveRight();
+            muncher.moveRight();
             break;    
     }
 });
