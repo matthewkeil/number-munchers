@@ -96,19 +96,23 @@ class Muncher {
     } 
 
     moveLeft() {
-        this.column--;
+        let col = this.column;
+        this.column = col - 1;
     }
     
     moveRight() {
-        this.column++;
+        let col = this.column;
+        this.column = col + 1;
     }
-    
+
     moveDown() {
-        this.row--;
+        let row = this.row;
+        this.row = row + 1;
     }
     
     moveUp() {
-        this.row++
+        let row = this.row;
+        this.row = row - 1;
     }
     
     munch() {
@@ -123,7 +127,7 @@ let muncher = new Muncher;
 document.addEventListener('keyup', (e) => {
     switch(e.key) {
         case ' ':
-            munch();
+            muncher.munch();
             break;
         case 'ArrowUp':
             muncher.moveUp();
