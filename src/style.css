@@ -1,4 +1,4 @@
-html, body, div, span, applet, object, iframe,
+/* html, body, div, span, applet, object, iframe, */
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, img, input, ins, kbd, q, s, samp,
@@ -64,7 +64,6 @@ main {
 	font-size: 1rem;
 	padding-top: .7rem;
 	padding-bottom: .7rem;
-	margin-bottom: 1rem;
 	border-top: .5rem solid coral;
 	border-bottom: .5rem solid coral;
 }
@@ -72,6 +71,8 @@ main {
 #board {
 	position: relative;
 	width: 100%;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 	border: 2px solid blueviolet;
 }
 
@@ -91,7 +92,7 @@ main {
 
 h3 {
 	width: 100%;
-	font-size: 2rem;
+	font-size: .9rem;
 }
 
 #muncher {
@@ -101,12 +102,11 @@ h3 {
 	max-height: 100%;
 }
 
-.board-container footer {
+.board-container section {
 	display: flex;
-	align-items: center;
-	text-align: center;
+	align-items: right;
+	text-align: right;
 	flex-direction: column;
-	padding-top: 1rem;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -115,21 +115,20 @@ h3 {
 	width: 100%;
 }
 
-.score-container > span {
-	font-size: 1rem;
-}
-
 #score {
 	display: inline-block;
+	position: relative;
 	border: .8rem solid blue;
-	padding-left: 3rem;
-	padding-right: 3rem;
-	padding-top: .5rem;
-	padding-bottom: .5rem;
+	padding: .8rem 2.3rem;
+}
+
+#score > span {
+	position: absolute;
+	right: 7rem;
 }
 
 @media (min-width: 400px) {
-	#level-name {
+	#level-name, #score {
 		font-size: 1.2rem;
 	}
 
@@ -146,6 +145,18 @@ h3 {
 
 	#board > .row {
 		height: 60px;
+	}
+
+	h3 {
+		font-size: 1.2rem;
+	}
+
+	#score {
+		padding: .9rem 2.8rem;
+	}
+
+	#score > span {
+		right: 8rem;
 	}
 }
 
@@ -192,6 +203,10 @@ h3 {
 @media (min-width: 800px) {
 	#level-name {
 		font-size: 2rem;
+	}
+
+	#score {
+		font-size: 1.6rem;
 	}
 
 	#board > .row {
