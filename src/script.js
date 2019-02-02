@@ -7,20 +7,19 @@ const _numCols = 6
 
 const levels = [{
     name: 'Multiple of 2',
+    maxNumber: 10,
     test: (num) => num % 2 === 0
 }];
 
-function win() {
-    console.log('you won')
+function results(remainingLives) {
+    !!remainingLives
+        ? console.log(`you have ${remainingLives} lives remaining`)
+        : console.log('you lost')
+
+    cleanup();
 }
 
-function lose() {
-    console.log('you lost')
-}
-
-let board = new Board(levels[0], win, lose);
-
-let muncher = new Muncher(board);
+let board = new Board(_extraLives, levels[0], results);
 
 
 /**
@@ -30,46 +29,38 @@ let muncher = new Muncher(board);
  * 
  * 
  */
-function resizeListener() {
-    return muncher.resize();
-}
 
-function keyupListener(e) {
+function keydownListener(e) {
     switch(e.key) {
         case ' ':
             e.preventDefault();
-            muncher.munch();
+            board.munch();
             break;
         case 'ArrowUp':
-            e.stopImmediatePropagation();
             e.preventDefault();
-            muncher.moveUp();
+            board.muncher.moveUp();
             break;
         case 'ArrowDown':
-            e.stopImmediatePropagation();
             e.preventDefault();
-            muncher.moveDown();
+            board.muncher.moveDown();
             break;
         case 'ArrowLeft':
             e.preventDefault();
-            muncher.moveLeft();
+            board.muncher.moveLeft();
             break;
         case 'ArrowRight':
             e.preventDefault();
-            muncher.moveRight();
+            board.muncher.moveRight();
             break;    
     }
 }
 
 function cleanup() {
-    window.removeEventListener('resize', muncher.resize);
-    window.removeEventListener('keyup', keyupListener);
+    window.removeEventListener('keydown', keydownListener);
 }
 
-window.addEventListener('resize', resizeListener);
+window.addEventListener('keydown', keydownListener);
 
-window.addEventListener('keyup', keyupListener, true);
-
-window.onbeforeunload = cleanup
+window.onunload = cleanup
 
 window.close = cleanup;
