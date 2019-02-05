@@ -47,8 +47,20 @@ table {
 }
 
 main {
+	position: relative;
 	padding-left: 8vw;
 	padding-right: 8vw;
+}
+
+main > h1 {
+	font-size: 4rem;
+	position: absolute;
+	top: 50vh;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 3rem 5rem;
+	border: .5rem solid white;
+	border-radius: 1rem;
 }
 
 .board-container {
@@ -97,22 +109,47 @@ h3 {
 
 #muncher {
 	position: absolute;
-	background-color: #fff;
+	overflow: hidden;
 	max-width: 100%;
 	max-height: 100%;
 }
 
-.board-container section {
-	display: flex;
-	align-items: right;
-	text-align: right;
-	flex-direction: column;
-	margin-left: auto;
-	margin-right: auto;
+#muncher > div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 100px;
+	width: 100px;
+	background-size: cover;
+	background-image: url('../assets/muncher-sprite.png');
+	background-repeat: no-repeat;
+	background-position-x: 0px;
 }
 
-.score-container, .extra-lives {
+#muncher .munch {
+	background-position-x: -913px; 
+}
+
+#muncher .walk-left {
+	animation: walk-left 100ms;
+}
+
+@keyframes walk-left {
+	0% { background-position-x: -100px }
+	100% { background-position-x: -200px }
+}
+
+.board-container footer {
+	display: flex;
+	text-align: right;
+	flex-direction: column;
+	margin-right: -4px;
+}
+
+.score-container {
 	width: 100%;
+	margin-bottom: .5rem;
 }
 
 #score {
@@ -125,6 +162,29 @@ h3 {
 #score > span {
 	position: absolute;
 	right: 7rem;
+}
+
+#extra-lives {
+	width: 100%;
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.extra-life {
+	height: 70px;
+	width: 75px;
+	background-size: cover;
+	background-image: url('muncher.png');
+	background-repeat: no-repeat;
+	background-position-x: 0px; 
+}
+
+.extra-life.smile {
+	background-position-x: -795px; 
+}
+
+.extra-life.frown {
+	background-position-x: -895px; 
 }
 
 .lose-life {
@@ -196,7 +256,11 @@ h3 {
 		flex-direction: row;
 	}
 
-	.score-container, .extra-lives {
+	#score > span {
+		font-size: 1rem;
+	}
+
+	.score-container, #extra-lives {
 		width: 50%;
 	}
 }
@@ -214,6 +278,15 @@ h3 {
 	#board > .row {
 		height: 80px;
 	}
+
+	.extra-life {
+		margin-left: 1rem;
+	}
+	
+	#score > span {
+		right: 9rem;
+		font-size: 1.2rem;
+	}
 }
 
 @media (min-width: 800px) {
@@ -224,9 +297,22 @@ h3 {
 	#score {
 		font-size: 1.6rem;
 	}
+	
+	#score > span {
+		right: 10rem;
+	}
 
 	#board > .row {
 		height: 90px;
+	}
+
+	.extra-life {
+		height: 90px;
+		width: 90px;
+	}
+
+	.score-container {
+		margin-top: .5rem;
 	}
 }
 
@@ -238,6 +324,11 @@ h3 {
 	#board > .row {
 		height: 100px;
 	}
+	
+	#score > span {
+		font-size: 1.7rem;
+		right: 11rem;
+	}
 }
 
 @media (min-width: 1000px) {
@@ -248,7 +339,11 @@ h3 {
 	#board > .row {
 		height: 110px;
 	}
-}
+
+	.extra-life {
+		margin-left: 2rem;
+	}
+}	
 
 @media (min-width: 1100px) {
 	#level-name {

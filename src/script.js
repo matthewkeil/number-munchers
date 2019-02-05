@@ -9,58 +9,152 @@ const levels = [{
     name: 'Multiple of 2',
     maxNumber: 10,
     test: (num) => num % 2 === 0
-}];
-
-function results(remainingLives) {
-    !!remainingLives
-        ? console.log(`you have ${remainingLives} lives remaining`)
-        : console.log('you lost')
-
-    cleanup();
 }
+// ,{
+//     name: 'Multiple of 3',
+//     maxNumber: 20,
+//     test: (num) => num % 3 === 0
+// },{
+//     name: 'Multiple of 4',
+//     maxNumber: 30,
+//     test: (num) => num % 4 === 0
+// },{
+//     name: 'Multiple of 5',
+//     maxNumber: 30,
+//     test: (num) => num % 5 === 0
+// }
+];
 
-let board = new Board(_extraLives, levels[0], results);
+const randomLevel = () => levels[Math.floor(Math.random() * levels.length)];
 
+function startGame(lives, gameOver) {
 
-/**
- * 
- * 
- *  Add and Cleanup of listeners
- * 
- * 
- */
-
-function keydownListener(e) {
-    switch(e.key) {
-        case ' ':
-            e.preventDefault();
-            board.munch();
-            break;
-        case 'ArrowUp':
-            e.preventDefault();
-            board.muncher.moveUp();
-            break;
-        case 'ArrowDown':
-            e.preventDefault();
-            board.muncher.moveDown();
-            break;
-        case 'ArrowLeft':
-            e.preventDefault();
-            board.muncher.moveLeft();
-            break;
-        case 'ArrowRight':
-            e.preventDefault();
-            board.muncher.moveRight();
-            break;    
+    if (arguments.length === 0) {
+        lives = _extraLives;
+        gameOver = showStartScreen;
     }
+
+    /**
+     * 
+     * 
+     *  Event handlers and cleanup of listeners
+     * 
+     * 
+     */
+    function resize() { 
+        return board.resize.call(board);
+    }
+
+    function keydownListener(e) {
+        switch(e.key) {
+            case ' ':
+                e.preventDefault();
+                board.muncher.munch();
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                board.muncher.moveUp();
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                board.muncher.moveDown();
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                board.muncher.moveLeft();
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                board.muncher.moveRight();
+                break;    
+        }
+    }
+
+    function cleanup() {
+        window.removeEventListener('resize', resize);
+        window.removeEventListener('keydown', keydownListener);
+        gameOver();
+    }
+
+    function levelOver(livesLeft) {
+        !!livesLeft
+            ? board = new Board(livesLeft, randomLevel(), levelOver)
+            : cleanup()
+    }
+    
+    /**
+     * 
+     * 
+     * Setup board
+     * 
+     * 
+     */
+    let board = new Board(lives, randomLevel(), levelOver);
+    
+    window.addEventListener('resize', resize);
+    window.addEventListener('keydown', keydownListener);
+    
+    window.onunload = cleanup
+    window.close = cleanup;
 }
 
-function cleanup() {
-    window.removeEventListener('keydown', keydownListener);
+
+function startScreen() {
+    /**
+     * 
+     * 
+     *  Event handlers and cleanup of listeners
+     * 
+     * 
+     */
+    function keydownListener(e) {
+        switch(e.key) {
+            case ' ':
+                e.preventDefault();
+                board.muncher.munch();
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                board.muncher.moveUp();
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                board.muncher.moveDown();
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                board.muncher.moveLeft();
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                board.muncher.moveRight();
+                break;    
+        }
+    }
+
+    function cleanup() {
+        window.removeEventListener('keydown', keydownListener);
+    }
+    
+    /**
+     * 
+     * 
+     * Setup board
+     * 
+     * 
+     */
+    let board = new Board(lives, randomLevel(), levelOver);
+    
+    window.addEventListener('resize', resize);
+    window.addEventListener('keydown', keydownListener);
+    
+    window.onunload = cleanup
+    window.close = cleanup;
+}
+function showStartScreen() {
+    $('main').html(`<h1 onclick="startGame()">Start</h1>`)    
 }
 
-window.addEventListener('keydown', keydownListener);
+showStartScreen();
 
-window.onunload = cleanup
 
-window.close = cleanup;
