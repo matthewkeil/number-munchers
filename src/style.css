@@ -132,12 +132,39 @@ h3 {
 }
 
 #muncher .walk-left {
-	animation: walk-left 100ms;
+	animation: walk-left 100ms steps(2);
+}
+
+#muncher .walk-right {
+	animation: walk-left 100ms steps(2);
+}
+
+#muncher .walk-up {
+	animation: walk-up 100ms steps(2);
+}
+
+#muncher .walk-down {
+	animation: walk-down 100ms steps(2);
 }
 
 @keyframes walk-left {
-	0% { background-position-x: -100px }
-	100% { background-position-x: -200px }
+	0% { background-position-x: -300px; }
+	100% { background-position-x: -200px; }
+}
+
+@keyframes walk-right {
+	0% { background-position-x: -500px; }
+	100% { background-position-x: -400px; }
+}
+
+@keyframes walk-up {
+	0% { background-position-x: -700px; }
+	100% { background-position-x: -600px; }
+}
+
+@keyframes walk-down {
+	0% { background-position-x: -900px; }
+	100% { background-position-x: -800px; }
 }
 
 .board-container footer {

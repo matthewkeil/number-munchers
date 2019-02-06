@@ -98,7 +98,6 @@ function startGame(lives, gameOver) {
     window.close = cleanup;
 }
 
-
 function startScreen() {
     /**
      * 
@@ -151,6 +150,7 @@ function startScreen() {
     window.onunload = cleanup
     window.close = cleanup;
 }
+
 function showStartScreen() {
     $('main').html(`<h1 onclick="startGame()">Start</h1>`)    
 }
