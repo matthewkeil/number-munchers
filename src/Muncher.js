@@ -1,46 +1,61 @@
 class Muncher extends Character {
+  constructor(board) {
+    super(board, "muncher");
+  }
 
-    constructor(board) {
-        super(board, 'muncher');
-    }
+  munchAnimation() {
+    this.sprite.addClass("munch");
+    setTimeout(() => this.sprite.removeClass("munch"), 80);
+  }
 
-    munchAnimation() {
-        this.sprite.addClass('munch');
-        setTimeout(() => this.sprite.removeClass('munch'), 80);
-    }
+  munch() {
+    const id = `#cell-${this.row - 1}-${this.column - 1}`;
 
-    munch() {
+    const cell = this.board._board.find(id);
 
-        const id = `#cell-${this.row - 1}-${this.column - 1}`;
+    const isCorrect = cell.attr("value");
 
-        const cell = this.board._board.find(id);
+    if (Number.isNaN(parseInt(isCorrect))) {
 
-        const isCorrect = cell.attr('value');
+      if (isCorrect === "true") {
+        this.munchAnimation();
 
-        if (Number.isNaN(parseInt(isCorrect))) {
-            
-            if (isCorrect === 'true') {
+        this.board.incrementScore();
 
-                this.munchAnimation();
+        cell[0].setAttribute("value", 0);
 
-                this.board.incrementScore();
-    
-                cell[0].setAttribute('value', 0);
-                
-                cell.html('');
+        cell.html('');
 
-                this.board.remainingCorrect--;
+        this.board.remainingCorrect--;
 
-                if (!this.board.remainingCorrect) {
-                    this.board.gameOver(this.board.lives)
-                }
-
-                return;
-            }
-
-            this.board.loseLife($(`${id} h3`).text());
+        if (!this.board.remainingCorrect) {
+          this.board.gameOver(this.board.lives);
         }
+
+        return;
+      }
+
+      this.board.loseLife($(`${id} h3`).text());
     }
+  }
 
+  moveLeft() {
+    if (this.column > 1)
+        return super.moveLeft();
+  }
+
+  moveRight() {
+      if (this.column < this.board.cols)
+        return super.moveRight();
+  }
+
+  moveDown() {
+      if (this.row < this.board.rows)
+        return super.moveDown();
+  }
+
+  moveUp() {
+      if (this.row > 1)
+        return super.moveUp();
+  }
 }
-

@@ -1,152 +1,149 @@
 class Board {
+  constructor(extraLives, level, gameOver) {
+    this.extraLives = extraLives;
+    this.level = level;
+    this.gameOver = gameOver;
 
-    constructor(extraLives, level, gameOver) {
+    this.rows = level._numRows || 5;
+    this.cols = level._numCols || 6;
+    this.remainingCorrect = 0;
+    this.incrementScoreBy = 5;
 
-        this.extraLives = extraLives;
-        this.level = level;
-        this.gameOver = gameOver;
-
-        this._rows = level._numRows || 5;
-        this._cols = level._numCols || 6;
-        this.remainingCorrect = 0;
-        this.incrementScoreBy = 5;
-
-        $('main').html(`
+    $("main").html(`
         <div class="board-container">
             <header>
                 <h1 id="level-name">${level.name}</h1>
             </header>
             <div id="board"></div>
             <footer>
-                <div class="score-container">
-                    <div id="score"><span>Score:</span><p>0</p></div>
-                </div>
+                <div class="score-container"><span>Score:</span><p id="score">0</p></div>
                 <div id="extra-lives"></div>
             </footer>
         </div>`);
 
-        this.displayExtraLives();
+    this.displayExtraLives();
 
-        /**
-         * 
-         * 
-         * Populate board with answers
-         * 
-         * 
-         */
-        this._board = $('#board');
+    /**
+     *
+     *
+     * Populate board with answers
+     *
+     *
+     */
+    this._board = $("#board");
 
-        for (let i = 0; i < this._rows; i++) {
-            this._board.append(this.buildRow(i));
-        }
-
-        /** 
-         * 
-         * 
-         * Characters on the board
-         * 
-         * 
-         */
-        this.characters = [];
-
-        this.muncher = new Muncher(this);
-        
-
+    for (let i = 0; i < this.rows; i++) {
+      this._board.append(this.buildRow(i));
     }
 
-   resize() {
-       this.muncher.resize();
-   }
-    
-    testCell(answer) {
-        return this.level.test(answer);
-    }
+    /**
+     *
+     *
+     * Characters on the board
+     *
+     *
+     */
+    this.characters = [];
 
-    randomNumber() {
-        return Math.floor(Math.random() * this.level.maxNumber + 1)
-    }
+    this.muncher = new Muncher(this);
 
-    buildCell(rowIndex, colIndex) {
-        const number = this.randomNumber();
-        const isCorrect = this.testCell(number);
+    this.characters.push(this.muncher);
+  }
 
-        if (isCorrect) this.remainingCorrect++;
+  addTroggle() {
+    this.characters.push(new Troggle(this));
+  }
 
-        const cell = document.createElement('div')
-        cell.id = `cell-${rowIndex}-${colIndex}`;
-        cell.className = "cell";
-        cell.setAttribute('value', isCorrect);
-        cell.innerHTML = `<h3>${number}</h3>`;
-    
-        return cell;
-    }
+  resize() {
+    this.muncher.resize();
+  }
 
-    buildRow(rowIndex) {
-        
-        const row = document.createElement('div');
-        row.className = "row";
-        row.id = `row-${rowIndex}`;
-    
-        for (let i = 0; i < this._cols; i++)
-            row.appendChild(this.buildCell(rowIndex, i));
-        
-        return row;
-    }
+  testCell(answer) {
+    return this.level.test(answer);
+  }
 
-    incrementScore() {
-        const score = $('#score p');
+  randomNumber() {
+    return Math.floor(Math.random() * this.level.maxNumber + 1);
+  }
 
-        score.text(parseInt(score.text()) + this.incrementScoreBy);
-        
-        $('.extra-life').addClass('smile');
-        
-        setTimeout(() => {
-            $('.extra-life').removeClass('smile');
-        }, 500)
-    }
+  buildCell(rowIndex, colIndex) {
+    const number = this.randomNumber();
+    const isCorrect = this.testCell(number);
 
-    loseLife(text) {
+    if (isCorrect) this.remainingCorrect++;
 
-        $('.extra-life').addClass('frown');
+    const cell = document.createElement("div");
+    cell.id = `cell-${rowIndex}-${colIndex}`;
+    cell.className = "cell";
+    cell.setAttribute("value", isCorrect);
+    cell.innerHTML = `<h3>${number}</h3>`;
 
-        const row = $('#row-2');
+    return cell;
+  }
 
-        const html = row.html();
+  buildRow(rowIndex) {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.id = `row-${rowIndex}`;
 
-        this.muncher.freeze();
-        
-        this.muncher.element.hide();
-        
-        row.html('');
-        
-        row.append(`<div class="lose-life">
+    for (let i = 0; i < this.cols; i++)
+      row.appendChild(this.buildCell(rowIndex, i));
+
+    return row;
+  }
+
+  incrementScore() {
+    const score = $("#score");
+
+    score.text(parseInt(score.text()) + this.incrementScoreBy);
+
+    $(".extra-life").addClass("smile");
+
+    setTimeout(() => {
+      $(".extra-life").removeClass("smile");
+    }, 500);
+  }
+
+  loseLife(text) {
+    $(".extra-life").addClass("frown");
+
+    const row = $("#row-2");
+
+    const html = row.html();
+
+    this.muncher.freeze();
+
+    this.muncher.element.hide();
+
+    row.html("");
+
+    row.append(`<div class="lose-life">
             <span>Look again!  ${text} is not a ${this.level.name.toLowerCase()}</span>
         </div>`);
-        
-        setTimeout(() => {
-            
-            row.html(html);
-            
-            this.muncher.element.show();
-    
-            this.muncher.unfreeze();
-            
-            if (this.extraLives <= 0) {
-                return void this.gameOver(null);
-            }
-            
-            this.extraLives--;
 
-            this.displayExtraLives();
+    setTimeout(() => {
+      row.html(html);
 
-        }, 1500)
-    }
-    
-    displayExtraLives() {
-        const container = $('#extra-lives');
+      this.muncher.element.show();
 
-        container.html('');
-        
-        for (let i = 0; i < this.extraLives; i++) container.append($(document.createElement('div')).addClass('extra-life'));
-    }
+      this.muncher.unfreeze();
+
+      if (this.extraLives <= 0) {
+        return void this.gameOver(null);
+      }
+
+      this.extraLives--;
+
+      this.displayExtraLives();
+    }, 1500);
+  }
+
+  displayExtraLives() {
+    const container = $("#extra-lives");
+
+    container.html("");
+
+    for (let i = 0; i < this.extraLives; i++)
+      container.append($(document.createElement("div")).addClass("extra-life"));
+  }
 }
