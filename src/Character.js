@@ -66,10 +66,15 @@ class Character {
   }
 
   get _element() {
+    
     let el = "<div";
 
-    if (this.name === "muncher") el += ` id="${this.name}"`;
-    else el += ` class="troggle"`;
+    if (this.name === "muncher") {
+        el += ` id="${this.name}"`;
+    } 
+    else {
+        el += ` class="troggle"`;
+    }
 
     el += ` style="
         width:${this.width}px;
@@ -79,8 +84,7 @@ class Character {
         >
             <div></div>
         </div>`;
-
-    return el;
+    return el
   }
 
   freeze() {
@@ -102,12 +106,12 @@ class Character {
 
       this.sprite.addClass("walk-left");
       setTimeout(() => {
-        this.sprite.removeClass("walk-left");
+        // this.sprite.removeClass("walk-left");
 
         if (Number.isNaN(this.column)) {
           this.element.remove(0);
         }
-      }, 200);
+      }, 1000);
     }
   }
 
@@ -117,12 +121,12 @@ class Character {
 
       this.sprite.addClass("walk-right");
       setTimeout(() => {
-        this.sprite.removeClass("walk-right");
+        // this.sprite.removeClass("walk-right");
 
         if (this.column > this.board.cols) {
           this.element.remove();
         }
-      }, 200);
+      }, 1000);
     }
   }
 
@@ -132,12 +136,12 @@ class Character {
 
       this.sprite.addClass("walk-down");
       setTimeout(() => {
-        this.sprite.removeClass("walk-down");
+        // this.sprite.removeClass("walk-down");
 
         if (this.row > this.board.rows) {
           this.element.delete();
         }
-      }, 200);
+      }, 1000);
     }
   }
 
@@ -147,12 +151,12 @@ class Character {
 
       this.sprite.addClass("walk-up");
       setTimeout(() => {
-        this.sprite.removeClass("walk-up");
+        // this.sprite.removeClass("walk-up");
 
         if (Number.isNaN(this.row)) {
           this.element.remove();
         }
-      }, 200);
+      }, 1000);
     }
   }
 }

@@ -16,7 +16,7 @@ class Board {
             </header>
             <div id="board"></div>
             <footer>
-                <div class="score-container"><span>Score:</span><p id="score">0</p></div>
+                <div class="score-container"><span>Score:</span><h3 id="score">0</h3></div>
                 <div id="extra-lives"></div>
             </footer>
         </div>`);
@@ -55,7 +55,7 @@ class Board {
   }
 
   resize() {
-    this.muncher.resize();
+    this.characters.forEach(character => character.resize());
   }
 
   testCell(answer) {
@@ -76,7 +76,7 @@ class Board {
     cell.id = `cell-${rowIndex}-${colIndex}`;
     cell.className = "cell";
     cell.setAttribute("value", isCorrect);
-    cell.innerHTML = `<h3>${number}</h3>`;
+    cell.innerHTML = `<p>${number}</p>`;
 
     return cell;
   }

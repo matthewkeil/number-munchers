@@ -153,4 +153,5 @@ function showStartScreen() {
   $("main").html(`<h1 onclick="startGame()">Start</h1>`);
 }
 
-showStartScreen();
+startGame(_extraLives, showStartScreen);
+ 
