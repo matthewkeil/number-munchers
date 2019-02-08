@@ -106,12 +106,12 @@ class Character {
 
       this.sprite.addClass("walk-left");
       setTimeout(() => {
-        // this.sprite.removeClass("walk-left");
+        this.sprite.removeClass("walk-left");
 
         if (Number.isNaN(this.column)) {
           this.element.remove(0);
         }
-      }, 1000);
+      }, 100);
     }
   }
 
@@ -121,12 +121,12 @@ class Character {
 
       this.sprite.addClass("walk-right");
       setTimeout(() => {
-        // this.sprite.removeClass("walk-right");
+        this.sprite.removeClass("walk-right");
 
         if (this.column > this.board.cols) {
           this.element.remove();
         }
-      }, 1000);
+      }, 100);
     }
   }
 
@@ -136,12 +136,12 @@ class Character {
 
       this.sprite.addClass("walk-down");
       setTimeout(() => {
-        // this.sprite.removeClass("walk-down");
+        this.sprite.removeClass("walk-down");
 
         if (this.row > this.board.rows) {
           this.element.delete();
         }
-      }, 1000);
+      }, 200);
     }
   }
 
@@ -151,12 +151,12 @@ class Character {
 
       this.sprite.addClass("walk-up");
       setTimeout(() => {
-        // this.sprite.removeClass("walk-up");
+        this.sprite.removeClass("walk-up");
 
         if (Number.isNaN(this.row)) {
           this.element.remove();
         }
-      }, 1000);
+      }, 200);
     }
   }
 }

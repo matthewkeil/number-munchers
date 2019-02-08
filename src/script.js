@@ -1,7 +1,9 @@
+
+
 let _extraLives = 3;
 const _numRows = 5;
 const _numCols = 6;
-let board;
+// var board;
 
 const levels = [
   {
@@ -96,58 +98,7 @@ function startGame(lives, gameOver) {
   window.close = cleanup;
 }
 
-// function startScreen() {
-//   /**
-//    *
-//    *
-//    *  Event handlers and cleanup of listeners
-//    *
-//    *
-//    */
-//   function keydownListener(e) {
-//     switch (e.key) {
-//       case " ":
-//         e.preventDefault();
-//         board.muncher.munch();
-//         break;
-//       case "ArrowUp":
-//         e.preventDefault();
-//         board.muncher.moveUp();
-//         break;
-//       case "ArrowDown":
-//         e.preventDefault();
-//         board.muncher.moveDown();
-//         break;
-//       case "ArrowLeft":
-//         e.preventDefault();
-//         board.muncher.moveLeft();
-//         break;
-//       case "ArrowRight":
-//         e.preventDefault();
-//         board.muncher.moveRight();
-//         break;
-//     }
-//   }
 
-//   function cleanup() {
-//     window.removeEventListener("keydown", keydownListener);
-//   }
-
-//   /**
-//    *
-//    *
-//    * Setup board
-//    *
-//    *
-//    */
-//   let board = new Board(lives, randomLevel(), levelOver);
-
-//   window.addEventListener("resize", resize);
-//   window.addEventListener("keydown", keydownListener);
-
-//   window.onunload = cleanup;
-//   window.close = cleanup;
-// }
 
 function showStartScreen() {
   $("main").html(`<h1 onclick="startGame()">Start</h1>`);

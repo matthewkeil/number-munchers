@@ -211,51 +211,45 @@ p {
 }
 
 #muncher > div {
-  background-image: url("../assets/muncher-sprite.png");
+  background-image: url("muncher.png");
 }
 
 .troggle > div {
-  background-image: url("../assets/troggle_sprites.png");
+  background-image: url("troggle-large.png");
 }
 
 #muncher .munch {
-  background-position-x: 76%;
+  background-position-x: calc(2 * (100% / 11));
 }
 
 #muncher .walk-left {
-  background-position-x: 27.5%;
+  background-position-x: calc(4 * (100% / 11));
 }
 
 #muncher .walk-right {
-  background-position-x: 30%;
-  /* animation: walk-left 100ms steps(2); */
-}
-
-#muncher .walk-up {
-  background-position-x: 70%;
-  /* animation: walk-up 100ms steps(2); */
+  background-position-x: calc(6 * (100% / 11));
 }
 
 #muncher .walk-down {
-  background-position-x: 60%;
-  /* animation: walk-down 100ms steps(2); */
+  background-position-x: calc(9 * (100% / 11));
+}
+
+#muncher .walk-up {
+  background-position-x: calc(10 * (100% / 11));
 }
 
 /* @keyframes walk-left {
 	0% { background-position-x: -107px; }
 	100% { background-position-x: -207px; }
 }
-
 @keyframes walk-right {
 	0% { background-position-x: -500px; }
 	100% { background-position-x: -400px; }
 }
-
 @keyframes walk-up {
 	0% { background-position-x: -700px; }
 	100% { background-position-x: -600px; }
 }
-
 @keyframes walk-down {
 	0% { background-position-x: -900px; }
 	100% { background-position-x: -800px; }
@@ -296,19 +290,19 @@ p {
 
 .extra-life {
   height: 70px;
-  width: 75px;
+  width: 70px;
   background-size: cover;
   background-image: url("muncher.png");
   background-repeat: no-repeat;
-  background-position-x: 0px;
+  background-position-x: 0%;
 }
 
 .extra-life.smile {
-  background-position-x: 89%;
+  background-position-x: calc(2 * (100% / 11));
 }
 
 .extra-life.frown {
-  background-position-x: 100%;
+  background-position-x: calc(3 * (100% / 11));
 }
 
 .lose-life {
