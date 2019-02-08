@@ -1,4 +1,7 @@
-class Troggle extends Character {
+// import $ from 'jquery';
+import Character from './Character';
+
+export default class Troggle extends Character {
 
   constructor(board) {
     

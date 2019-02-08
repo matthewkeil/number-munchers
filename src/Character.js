@@ -1,4 +1,6 @@
-class Character {
+import $ from 'jquery';
+
+export default class Character {
   constructor(board, name) {
     this.name = name;
 
@@ -8,40 +10,42 @@ class Character {
 
     this.board = board;
 
-    this.element = this.board._board
-      .append(this._element)
-      .find("#" + this.name);
+    this._board = board._board;
+    
+    this._addToBoard();
 
-    this.sprite = $(`#${this.name} div`);
+    this._element = $('#' + this.name)
+    
+    this._sprite = $(`#${this.name} div`);
   }
 
   get width() {
-    return this.board._board
+    return this._board
       .find(`#cell-${this.row}-${this.column}`)
       .outerWidth();
   }
 
   set width(width) {
-    this.element.css("width", width);
+    this._element.css("width", width);
     return width;
   }
 
   get height() {
-    return this.board._board
+    return this._board
       .find(`#cell-${this.row}-${this.column}`)
       .outerHeight();
   }
 
   set height(height) {
-    this.element.css("height", height);
+    this._element.css("height", height);
     return height;
   }
 
   get column() {
-    if (!this.element) return 0;
+    if (!this._element) return 0;
 
     let percentage = parseFloat(
-      this.element[0].style.left.match(/[-0-9.]*/)[0]
+      this._element[0].style.left.match(/[-0-9.]*/)[0]
     );
 
     return Math.round((percentage * this.board.cols) / 100 + 1);
@@ -49,42 +53,40 @@ class Character {
 
   set column(col) {
     let offset = ((col - 1) * 100) / this.board.cols;
-    this.element.animate({ left: offset + "%" }, this.moveTime);
+    this._element.animate({ left: offset + "%" }, this.moveTime);
   }
 
   get row() {
-    if (!this.element) return 0;
+    if (!this._element) return 0;
 
-    let percentage = parseFloat(this.element[0].style.top.match(/[-0-9.]*/)[0]);
+    let percentage = parseFloat(this._element[0].style.top.match(/[-0-9.]*/)[0]);
 
     return Math.round((percentage * this.board.rows) / 100 + 1);
   }
 
   set row(row) {
     let offset = ((row - 1) * 100) / this.board.rows;
-    this.element.animate({ top: offset + "%" }, this.moveTime);
+    this._element.animate({ top: offset + "%" }, this.moveTime);
   }
 
-  get _element() {
+  _addToBoard() {
     
-    let el = "<div";
+    const element = document.createElement('div')
+    element.style.width = this.width + 'px';
+    element.style.height = this.height + 'px';
+    element.style.top = this.column + '%';
+    element.style.left = this.row + '%';
 
     if (this.name === "muncher") {
-        el += ` id="${this.name}"`;
+        element.id = this.name;
     } 
     else {
-        el += ` class="troggle"`;
+        element.className += `troggle`;
     }
 
-    el += ` style="
-        width:${this.width}px;
-        height:${this.height}px;
-        top:${this.column}%;
-        left:${this.row}%"
-        >
-            <div></div>
-        </div>`;
-    return el
+    element.appendChild(document.createElement('div'))
+
+    this._board[0].appendChild(element);
   }
 
   freeze() {
@@ -104,12 +106,12 @@ class Character {
     if (!this.frozen) {
       this.column--;
 
-      this.sprite.addClass("walk-left");
+      this._sprite.addClass("walk-left");
       setTimeout(() => {
-        this.sprite.removeClass("walk-left");
+        this._sprite.removeClass("walk-left");
 
         if (Number.isNaN(this.column)) {
-          this.element.remove(0);
+          this._element.remove(0);
         }
       }, 100);
     }
@@ -119,12 +121,12 @@ class Character {
     if (!this._frozen) {
       this.column++;
 
-      this.sprite.addClass("walk-right");
+      this._sprite.addClass("walk-right");
       setTimeout(() => {
-        this.sprite.removeClass("walk-right");
+        this._sprite.removeClass("walk-right");
 
         if (this.column > this.board.cols) {
-          this.element.remove();
+          this._element.remove();
         }
       }, 100);
     }
@@ -134,12 +136,12 @@ class Character {
     if (!this._frozen) {
       this.row++;
 
-      this.sprite.addClass("walk-down");
+      this._sprite.addClass("walk-down");
       setTimeout(() => {
-        this.sprite.removeClass("walk-down");
+        this._sprite.removeClass("walk-down");
 
         if (this.row > this.board.rows) {
-          this.element.delete();
+          this._element.delete();
         }
       }, 200);
     }
@@ -149,12 +151,12 @@ class Character {
     if (!this._frozen) {
       this.row--;
 
-      this.sprite.addClass("walk-up");
+      this._sprite.addClass("walk-up");
       setTimeout(() => {
-        this.sprite.removeClass("walk-up");
+        this._sprite.removeClass("walk-up");
 
         if (Number.isNaN(this.row)) {
-          this.element.remove();
+          this._element.remove();
         }
       }, 200);
     }

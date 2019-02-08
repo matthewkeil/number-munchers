@@ -1,11 +1,14 @@
-class Muncher extends Character {
+import $ from 'jquery';
+import Character from './Character';
+
+export default class Muncher extends Character {
   constructor(board) {
     super(board, "muncher");
   }
 
   munchAnimation() {
-    this.sprite.addClass("munch");
-    setTimeout(() => this.sprite.removeClass("munch"), 80);
+    this._sprite.addClass("munch");
+    setTimeout(() => this._sprite.removeClass("munch"), 80);
   }
 
   munch() {

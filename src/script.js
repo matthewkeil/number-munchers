@@ -1,14 +1,15 @@
-
+import Board from './Board';
 
 let _extraLives = 3;
-const _numRows = 5;
-const _numCols = 6;
-// var board;
+
+let board;
 
 const levels = [
   {
     name: "Multiple of 2",
     maxNumber: 10,
+    // rows: 3,
+    // cols: 4,
     test: num => num % 2 === 0
   }
   // ,{
@@ -97,8 +98,6 @@ function startGame(lives, gameOver) {
   window.onunload = cleanup;
   window.close = cleanup;
 }
-
-
 
 function showStartScreen() {
   $("main").html(`<h1 onclick="startGame()">Start</h1>`);

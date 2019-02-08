@@ -1,11 +1,15 @@
-class Board {
+import $ from 'jquery';
+import Muncher from './Muncher';
+import Troggle from './Troggle';
+
+export default class Board {
   constructor(extraLives, level, gameOver) {
     this.extraLives = extraLives;
     this.level = level;
     this.gameOver = gameOver;
 
-    this.rows = level._numRows || 5;
-    this.cols = level._numCols || 6;
+    this.rows = level.rows || 5;
+    this.cols = level.cols || 6;
     this.remainingCorrect = 0;
     this.incrementScoreBy = 5;
 
@@ -30,12 +34,13 @@ class Board {
      *
      *
      */
-    this._board = $("#board");
+    // const board = document.getElementById('board');
+    this._board = $('#board');
 
     for (let i = 0; i < this.rows; i++) {
-      this._board.append(this.buildRow(i));
+      this._board[0].appendChild(this.buildRow(i));
     }
-
+    
     /**
      *
      *
@@ -75,6 +80,7 @@ class Board {
     const cell = document.createElement("div");
     cell.id = `cell-${rowIndex}-${colIndex}`;
     cell.className = "cell";
+    cell.style.flexBasis = `${1 / this.cols * 100}%`;
     cell.setAttribute("value", isCorrect);
     cell.innerHTML = `<p>${number}</p>`;
 
@@ -85,6 +91,7 @@ class Board {
     const row = document.createElement("div");
     row.className = "row";
     row.id = `row-${rowIndex}`;
+    row.style.flexBasis = `${1 / this.rows * 100}%`;
 
     for (let i = 0; i < this.cols; i++)
       row.appendChild(this.buildCell(rowIndex, i));
@@ -113,7 +120,7 @@ class Board {
 
     this.muncher.freeze();
 
-    this.muncher.element.hide();
+    this.muncher._element.hide();
 
     row.html("");
 
@@ -124,7 +131,7 @@ class Board {
     setTimeout(() => {
       row.html(html);
 
-      this.muncher.element.show();
+      this.muncher._element.show();
 
       this.muncher.unfreeze();
 
