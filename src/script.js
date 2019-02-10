@@ -100,8 +100,18 @@ function startGame(lives, gameOver) {
 }
 
 function showStartScreen() {
-  $("main").html(`<h1 onclick="startGame()">Start</h1>`);
+  
+  const main = document.getElementsByTagName('main')[0];
+  main.innerHTML = '';
+  
+  const startButton = document.createElement('h1');
+  startButton.innerText = 'Start';
+  startButton.onclick = startGame;
+  
+  main.appendChild(startButton);
 }
 
 startGame(_extraLives, showStartScreen);
+
+// showStartScreen()
  

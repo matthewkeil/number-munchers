@@ -5,7 +5,9 @@
   "main": "script.js",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "NODE_ENV=production webpack --config webpack.config.js"
+    "build": "NODE_ENV=production && npm run webpack",
+    "webpack": "webpack --config webpack.config.js",
+    "dist": "npm run build && gsutil cp dist/* gs://noshers.homodigit.us"
   },
   "repository": {
     "type": "git",
@@ -16,10 +18,13 @@
   "bugs": {
     "url": "https://github.com/matthewkeil/number-noshers/issues"
   },
-  "homepage": "https://noshers.homodigit.us",
+  "homepage": "http://noshers.homodigit.us",
   "dependencies": {
     "@types/jquery": "^3.3.29",
     "browser-sync": "^2.26.3",
+    "clean-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^4.6.0",
+    "html-webpack-plugin": "^3.2.0",
     "jquery": "^3.3.1",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",

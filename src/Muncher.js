@@ -38,7 +38,7 @@ export default class Muncher extends Character {
         return;
       }
 
-      this.board.loseLife($(`${id} h3`).text());
+      this.board.loseLife($(`${id} p`).text());
     }
   }
 
